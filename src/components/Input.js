@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { UserConsumer } from '../contexts/User';
+import React, { useContext, useState } from 'react';
+import UserContext, { UserConsumer } from '../contexts/User';
 import styled from 'styled-components/native';
 
 const StyledInput = styled.TextInput`
@@ -7,32 +7,27 @@ const StyledInput = styled.TextInput`
     width: 250px;
     padding: 10px 15px;
     margin: 10px;
-    fint-size: 24px;
+    font-size: 24px;
 `;
 
 const Input = () => {
     const [name, setName] = useState('');
+    const { dispatch } = useContext(UserContext);
 
+    // 함수이기 때문에 반환해야 한다.
     return (
-        <UserConsumer>
-            {({ dispatch }) => {
-                // 함수이기 때문에 반환해야 한다.
-                return (
-                    <StyledInput
-                        value={name}
-                        onChangeText={text => setName(text)}
-                        onSubmitEditing={() => {
-                            dispatch(name);
-                            setName('');
-                        }}
-                        placeholder="Enter a name..."
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        returnKeyType="done"
-                    />
-                );
+        <StyledInput
+            value={name}
+            onChangeText={text => setName(text)}
+            onSubmitEditing={() => {
+                dispatch(name);
+                setName('');
             }}
-        </UserConsumer>
+            placeholder="Enter a name..."
+            autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="done"
+        />
     );
 };
 export default Input;
