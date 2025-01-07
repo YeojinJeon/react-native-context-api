@@ -1,12 +1,26 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
-const UserContext = createContext({ user: { name: '' }, dispatch: () => {} });
+const UserContext = createContext({
+    user: { name: '' },
+    dispatch: () => {},
+    hi: { text: '' },
+});
 
-const UserProvider = ({ children }) => {
+const UserProvider = ({ children, value }) => {
     const [name, setName] = useState('yeojin_jeon');
-    const value = { user: { name }, dispatch: setName };
+    const [text, setText] = useState('Hi');
+
+    useEffect(() => {
+        if (value) {
+            setText(value);
+        }
+    }, [value]);
+
+    const valueContext = { user: { name }, dispatch: setName, hi: { text } };
     return (
-        <UserContext.Provider value={value}>{children}</UserContext.Provider>
+        <UserContext.Provider value={valueContext}>
+            {children}
+        </UserContext.Provider>
     );
 };
 
