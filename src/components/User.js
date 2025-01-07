@@ -8,8 +8,11 @@ const StyledText = styled.Text`
 `;
 
 const User = () => {
-    const { user } = useContext(UserContext);
-    return (<StyledText>Name: {user.name}</StyledText>
+    const { user, hi } = useContext(UserContext);
+    return (
+        <StyledText>
+            {hi.text}! {user.name}
+        </StyledText>
     );
 };
 
